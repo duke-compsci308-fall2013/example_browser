@@ -188,20 +188,46 @@ public class BrowserViewer extends JPanel {
     // make user-entered URL/text field and back/next buttons
     private JComponent makeNavigationPanel () {
         JPanel result = new JPanel();
-        
+
         myBackButton = new JButton("Back");
-        result.add(myBackButton);
+        myBackButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                back();
+            }
+        });
+        panel.add(myBackButton);
+
         myNextButton = new JButton("Next");
-        result.add(myNextButton);
+        myNextButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                next();
+            }
+        });
+        panel.add(myNextButton);
+
         myHomeButton = new JButton("Home");
-        result.add(myHomeButton);
+        myHomeButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                home();
+            }
+        });
+        panel.add(myHomeButton);
+
+        // if user presses button, load/show the URL
+        JButton goButton = new JButton("Go");
+        goButton.addActionListener(new ShowPageAction());
+        result.add(goButton);
+
         // if user presses return, load/show the URL
         myURLDisplay = new JTextField(35);
         myURLDisplay.addActionListener(new ShowPageAction());
         result.add(myURLDisplay);
-        JButton goButton = new JButton("Go");
-        goButton.addActionListener(new ShowPageAction());
-        result.add(goButton);
 
         return result;
     }
@@ -211,12 +237,29 @@ public class BrowserViewer extends JPanel {
         JPanel result = new JPanel();
 
         myAddButton = new JButton("Add Favorite");
+        myAddButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                addFavorite();
+            }
+        });
         result.add(myAddButton);
+
         myFavorites = new DefaultComboBoxModel();
         myFavorites.addElement(" All Favorites ");
         myFavoritesDisplay = new JComboBox(myFavorites);
         result.add(myFavoritesDisplay);
+
         JButton setHomeButton = new JButton("Set Home");
+        setHomeButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed (ActionEvent e)
+            {
+                myModel.setHome(myURLDisplay.getText());
+                enableButtons();
+            }
+        });
         result.add(setHomeButton);
 
         return result;
