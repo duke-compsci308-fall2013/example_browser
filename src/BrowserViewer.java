@@ -118,7 +118,8 @@ public class BrowserViewer extends JPanel {
     }
 
     // update just the view to display given URL
-    private void update (URL url) {
+    private void update (URL url) 
+    {
         try {
             myPage.setPage(url);
             myURLDisplay.setText(url.toString());
@@ -197,7 +198,7 @@ public class BrowserViewer extends JPanel {
                 back();
             }
         });
-        panel.add(myBackButton);
+        result.add(myBackButton);
 
         myNextButton = new JButton("Next");
         myNextButton.addActionListener(new ActionListener()
@@ -207,7 +208,7 @@ public class BrowserViewer extends JPanel {
                 next();
             }
         });
-        panel.add(myNextButton);
+        result.add(myNextButton);
 
         myHomeButton = new JButton("Home");
         myHomeButton.addActionListener(new ActionListener()
@@ -217,7 +218,7 @@ public class BrowserViewer extends JPanel {
                 home();
             }
         });
-        panel.add(myHomeButton);
+        result.add(myHomeButton);
 
         // if user presses button, load/show the URL
         JButton goButton = new JButton("Go");
@@ -256,7 +257,7 @@ public class BrowserViewer extends JPanel {
         {
             public void actionPerformed (ActionEvent e)
             {
-                myModel.setHome(myURLDisplay.getText());
+                myModel.setHome();
                 enableButtons();
             }
         });
