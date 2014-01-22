@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -18,6 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import model.BrowserModel;
+
+
 
 /**
  * A class used to display the viewer for a simple HTML browser.
@@ -32,9 +37,9 @@ import javax.swing.event.HyperlinkListener;
 @SuppressWarnings("serial")
 public class BrowserViewer extends JPanel {
     // constants
-    public static final Dimension SIZE = new Dimension(800, 600);
-    public static final String PROTOCOL_PREFIX = "http://";
-    public static final String BLANK = " ";
+    private static final Dimension SIZE = new Dimension(800, 600);
+    private static final String PROTOCOL_PREFIX = "http://";
+    private static final String BLANK = " ";
 
     // web page
     private JEditorPane myPage;

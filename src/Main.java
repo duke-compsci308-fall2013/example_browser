@@ -1,5 +1,9 @@
 import javax.swing.JFrame;
 
+import view.BrowserViewer;
+
+import model.BrowserModel;
+
 
 /**
  * A simple HTML browser.
