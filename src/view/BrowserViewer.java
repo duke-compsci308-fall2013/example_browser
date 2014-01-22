@@ -37,7 +37,6 @@ public class BrowserViewer extends JPanel {
 
   // web page
   private PageDisplayModule myPageDisplay;
-  // private JEditorPane myPage;
   // information area
   private JLabel myStatus;
   // navigation
@@ -61,7 +60,8 @@ public class BrowserViewer extends JPanel {
     // add components to frame
     setLayout(new BorderLayout());
     // must be first since other panels may refer to page
-    add(new PageDisplayModule(this, myModel).makeModule(), BorderLayout.CENTER);
+    myPageDisplay = new PageDisplayModule(this, myModel);
+    add(myPageDisplay.makeModule(), BorderLayout.CENTER);
     add(makeInputPanel(), BorderLayout.NORTH);
     add(makeInformationPanel(), BorderLayout.SOUTH);
     // control the navigation
@@ -75,7 +75,7 @@ public class BrowserViewer extends JPanel {
     myPageDisplay.showPage(url);
   }
 
-  
+
 
   /**
    * Display given message as information in the GUI.
