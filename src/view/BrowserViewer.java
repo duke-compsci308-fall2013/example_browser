@@ -2,12 +2,11 @@ package view;
 
 import java.awt.BorderLayout;
 import java.net.URL;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import view.module.InputPanelModule;
 import view.module.PageDisplayModule;
+import view.module.StatusModule;
 
 import model.BrowserModel;
 
@@ -28,11 +27,10 @@ public class BrowserViewer extends JPanel {
   // constants
   public static final String BLANK = " ";
 
-
   // web page
   private PageDisplayModule myPageDisplay;
   // information area
-  private JLabel myStatus;
+  private StatusModule myStatus;
   // navigation
   private InputPanelModule myInputPanel;
   // the data
@@ -49,10 +47,13 @@ public class BrowserViewer extends JPanel {
     // must be first since other panels may refer to page
     myPageDisplay = new PageDisplayModule(this, myModel);
     add(myPageDisplay.makeModule(), BorderLayout.CENTER);
+
     myInputPanel = new InputPanelModule(this, myModel);
     add(myInputPanel.makeModule(), BorderLayout.NORTH);
-    // TODO
-    add(makeInformationPanel(), BorderLayout.SOUTH);
+
+    myStatus = new StatusModule();
+    add(myStatus.makeModule(), BorderLayout.SOUTH);
+
     // control the navigation
     enableButtons();
   }
@@ -64,12 +65,11 @@ public class BrowserViewer extends JPanel {
     myPageDisplay.showPage(url);
   }
 
-
   /**
    * Display given message as information in the GUI.
    */
   public void showStatus(String message) {
-    myStatus.setText(message);
+    myStatus.setStatus(message);
   }
 
   // update just the view to display given URL
@@ -84,13 +84,6 @@ public class BrowserViewer extends JPanel {
 
   public void setURLDisplayText(URL url) {
     myInputPanel.setURLDisplayText(url);
-  }
-
-  // make the panel where "would-be" clicked URL is displayed
-  private JComponent makeInformationPanel() {
-    // BLANK must be non-empty or status label will not be displayed in GUI
-    myStatus = new JLabel(BLANK);
-    return myStatus;
   }
 
 }
