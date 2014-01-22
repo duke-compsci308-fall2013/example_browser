@@ -1,4 +1,6 @@
 import javax.swing.JFrame;
+import view.BrowserViewer;
+import model.BrowserModel;
 
 
 /**
