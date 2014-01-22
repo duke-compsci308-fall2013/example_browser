@@ -11,7 +11,6 @@ import view.module.StatusModule;
 import model.BrowserModel;
 
 
-
 /**
  * A class used to display the viewer for a simple HTML browser.
  * 
@@ -72,16 +71,23 @@ public class BrowserViewer extends JPanel {
     myStatus.setStatus(message);
   }
 
-  // update just the view to display given URL
+  /**
+   * Update just the PageDisplay to show the given URL
+   */
   public void update(URL url) {
     myPageDisplay.update(url);
   }
 
-  // only enable buttons when useful to user
+  /**
+   * Enable the buttons that are currently useful to the user
+   */
   public void enableButtons() {
     myInputPanel.enableButtons();
   }
 
+  /**
+   * Set the URL that is displayed in the navigation bar
+   */
   public void setURLDisplayText(URL url) {
     myInputPanel.setURLDisplayText(url);
   }

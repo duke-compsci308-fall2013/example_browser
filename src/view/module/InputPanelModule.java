@@ -75,6 +75,7 @@ public class InputPanelModule implements BrowserViewerModule {
 
     myBackButton = new JButton("Back");
     myBackButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         back();
       }
@@ -83,6 +84,7 @@ public class InputPanelModule implements BrowserViewerModule {
 
     myNextButton = new JButton("Next");
     myNextButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         next();
       }
@@ -91,6 +93,7 @@ public class InputPanelModule implements BrowserViewerModule {
 
     myHomeButton = new JButton("Home");
     myHomeButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         home();
       }
@@ -116,6 +119,7 @@ public class InputPanelModule implements BrowserViewerModule {
 
     myAddButton = new JButton("Add Favorite");
     myAddButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         addFavorite();
       }
@@ -129,6 +133,7 @@ public class InputPanelModule implements BrowserViewerModule {
 
     JButton setHomeButton = new JButton("Set Home");
     setHomeButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         myModel.setHome();
         enableButtons();
