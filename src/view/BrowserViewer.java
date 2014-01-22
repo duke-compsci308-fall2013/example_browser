@@ -1,18 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
+import view.module.InputPanelModule;
 import view.module.PageDisplayModule;
 
 import model.BrowserModel;
@@ -40,14 +34,7 @@ public class BrowserViewer extends JPanel {
   // information area
   private JLabel myStatus;
   // navigation
-  private JTextField myURLDisplay;
-  private JButton myBackButton;
-  private JButton myNextButton;
-  private JButton myHomeButton;
-  // favorites
-  private JButton myAddButton;
-  private DefaultComboBoxModel myFavorites;
-  private JComboBox myFavoritesDisplay;
+  private InputPanelModule myInputPanel;
   // the data
   private BrowserModel myModel;
 
@@ -62,7 +49,9 @@ public class BrowserViewer extends JPanel {
     // must be first since other panels may refer to page
     myPageDisplay = new PageDisplayModule(this, myModel);
     add(myPageDisplay.makeModule(), BorderLayout.CENTER);
-    add(makeInputPanel(), BorderLayout.NORTH);
+    myInputPanel = new InputPanelModule(this, myModel);
+    add(myInputPanel.makeModule(), BorderLayout.NORTH);
+    // TODO
     add(makeInformationPanel(), BorderLayout.SOUTH);
     // control the navigation
     enableButtons();
@@ -76,7 +65,6 @@ public class BrowserViewer extends JPanel {
   }
 
 
-
   /**
    * Display given message as information in the GUI.
    */
@@ -84,56 +72,18 @@ public class BrowserViewer extends JPanel {
     myStatus.setText(message);
   }
 
-  // move to the next URL in the history
-  private void next() {
-    update(myModel.next());
-  }
-
-  // move to the previous URL in the history
-  private void back() {
-    update(myModel.back());
-  }
-
-  // change current URL to the home page, if set
-  private void home() {
-    showPage(myModel.getHome().toString());
-  }
-
   // update just the view to display given URL
-  private void update(URL url) {
+  public void update(URL url) {
     myPageDisplay.update(url);
   }
 
-  // prompt user for name of favorite to add to collection
-  private void addFavorite() {
-    String name =
-        JOptionPane.showInputDialog(this, "Enter name", "Add Favorite",
-            JOptionPane.QUESTION_MESSAGE);
-    // did user make a choice?
-    if (name != null) {
-      myModel.addFavorite(name);
-      myFavorites.addElement(name);
-    }
-  }
-
-
   // only enable buttons when useful to user
   public void enableButtons() {
-    myBackButton.setEnabled(myModel.hasPrevious());
-    myNextButton.setEnabled(myModel.hasNext());
-    myHomeButton.setEnabled(myModel.getHome() != null);
+    myInputPanel.enableButtons();
   }
 
   public void setURLDisplayText(URL url) {
-    myURLDisplay.setText(url.toString());
-  }
-
-  // organize user's options for controlling/giving input to model
-  private JComponent makeInputPanel() {
-    JPanel result = new JPanel(new BorderLayout());
-    result.add(makeNavigationPanel(), BorderLayout.NORTH);
-    result.add(makePreferencesPanel(), BorderLayout.SOUTH);
-    return result;
+    myInputPanel.setURLDisplayText(url);
   }
 
   // make the panel where "would-be" clicked URL is displayed
@@ -142,86 +92,5 @@ public class BrowserViewer extends JPanel {
     myStatus = new JLabel(BLANK);
     return myStatus;
   }
-
-  // make user-entered URL/text field and back/next buttons
-  private JComponent makeNavigationPanel() {
-    JPanel result = new JPanel();
-
-    myBackButton = new JButton("Back");
-    myBackButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        back();
-      }
-    });
-    result.add(myBackButton);
-
-    myNextButton = new JButton("Next");
-    myNextButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        next();
-      }
-    });
-    result.add(myNextButton);
-
-    myHomeButton = new JButton("Home");
-    myHomeButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        home();
-      }
-    });
-    result.add(myHomeButton);
-
-    // if user presses button, load/show the URL
-    JButton goButton = new JButton("Go");
-    goButton.addActionListener(new ShowPageAction());
-    result.add(goButton);
-
-    // if user presses return, load/show the URL
-    myURLDisplay = new JTextField(35);
-    myURLDisplay.addActionListener(new ShowPageAction());
-    result.add(myURLDisplay);
-
-    return result;
-  }
-
-  // make buttons for setting favorites/home URLs
-  private JComponent makePreferencesPanel() {
-    JPanel result = new JPanel();
-
-    myAddButton = new JButton("Add Favorite");
-    myAddButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        addFavorite();
-      }
-    });
-    result.add(myAddButton);
-
-    myFavorites = new DefaultComboBoxModel();
-    myFavorites.addElement(" All Favorites ");
-    myFavoritesDisplay = new JComboBox(myFavorites);
-    result.add(myFavoritesDisplay);
-
-    JButton setHomeButton = new JButton("Set Home");
-    setHomeButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        myModel.setHome();
-        enableButtons();
-      }
-    });
-    result.add(setHomeButton);
-
-    return result;
-  }
-
-  /**
-   * Inner class to factor out showing page associated with the entered URL
-   */
-  private class ShowPageAction implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      showPage(myURLDisplay.getText());
-    }
-  }
-
 
 }
